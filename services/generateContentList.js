@@ -2,7 +2,7 @@ const {Configuration, OpenAIApi} = require("openai");
 module.exports = {
   generateContentList: async (subtitle,chapter) => {
     let configuration = new Configuration({
-      apiKey: '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',
+      apiKey: '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',
     });
     let openai = new OpenAIApi(configuration);
 
@@ -11,7 +11,7 @@ module.exports = {
         {
           "role": "user",
           "content":
-            `Now write me  list with 3 items with this subsection: ${subtitle} in this section:${chapter}  of this book on the topic: "The Adventures of Captain Jack Sparrow`
+            `Now write me  list with  items with this subsection: ${subtitle} in this section:${chapter}  of this book on the topic: "The Adventures of Captain Jack Sparrow`
         }
       ],
       model: "gpt-3.5-turbo",

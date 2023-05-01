@@ -3,7 +3,7 @@ const {Configuration, OpenAIApi} = require("openai");
 module.exports = {
   askAQuestion: async () => {
     let configuration = new Configuration({
-      apiKey: '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',
+      apiKey: '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',
     });
     let openai = new OpenAIApi(configuration);
 

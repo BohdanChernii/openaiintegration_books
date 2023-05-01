@@ -26,10 +26,10 @@ module.exports = {
           if (subtitle.title) {
             subtitle.contentList = await contentListGenerator.generateContentList(subtitle.title, item.title)
             subtitle.contentList = subtitle.contentList.filter(contentItem => parseInt(contentItem.id) >= 1)
-            // for (let contentItem of subtitle.contentList) {
-            //   contentItem.text = await textGenerator.generateText(subtitle.title, item.title, contentItem.title)
-            //   contentItem.text = contentItem.text.split('\n\n').join(' ')
-            // }
+            for (let contentItem of subtitle.contentList) {
+              contentItem.text = await textGenerator.generateText(subtitle.title, item.title, contentItem.title)
+              contentItem.text = contentItem.text.split('\n\n').join(' ')
+            }
           }
         }
       }
@@ -57,11 +57,14 @@ module.exports = {
       function parseSubs(subtitle) {
         const subtitles = []
         let content = []
+        let descriptions = []
         for (let item of subtitle) {
-
           subtitles.push(`Subtitle ${item.id} ${item.title}\n\n`)
           subtitles.push(...content)
-
+          for(let description of item.contentList){
+            descriptions.push(`Paragraph - ${description.title} \n\n  ${description.text}`)
+            subtitles.push(...descriptions)
+          }
         }
         return subtitles.flat(3)
       }
