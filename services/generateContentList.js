@@ -19,7 +19,7 @@ module.exports = {
     console.log(completion.data.choices[0].message.content);
     const result = completion.data.choices[0].message.content.split('\n').map(item => item = {
       id: item.split('.')[0],
-      title: item.split('.')[1]
+      description: item.split('.')[1]
     })
 
     console.log(result);
