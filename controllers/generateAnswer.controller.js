@@ -8,7 +8,7 @@ const textGenerator = require('../services/generateText.service')
 
 const endGenerator = require('../services/endTheText')
 
-const contentListGenerator= require('../services/generateContentList')
+const contentListGenerator = require('../services/generateContentList')
 
 const pptxgen = require('pptxgenjs')
 
@@ -29,6 +29,11 @@ module.exports = {
             // subtitle.text = await textGenerator.generateText(subtitle.title, item.title)
             // subtitle.text = subtitle.text + await endGenerator.endTheText(subtitle.title, item.title)
             subtitle.contentList = await contentListGenerator.generateContentList(subtitle.title, item.title)
+            subtitle.contentList = subtitle.contentList.filter(contentItem => parseInt(contentItem.id) >= 1)
+            for(let contentItem of  subtitle.contentList){
+              contentItem.text = await textGenerator.generateText(subtitle.title, item.title, contentItem.title)
+              contentItem.text =  contentItem.text.split('\n\n').join(' ')
+            }
           }
         }
       }
