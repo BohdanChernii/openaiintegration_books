@@ -2,7 +2,7 @@ const {Configuration, OpenAIApi} = require("openai");
 module.exports = {
   generateContentList: async (subtitle,title) => {
     let configuration = new Configuration({
-      apiKey: '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',
+      apiKey: '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',
     });
     let openai = new OpenAIApi(configuration);
 
