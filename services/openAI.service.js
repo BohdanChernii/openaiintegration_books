@@ -3,7 +3,7 @@ const {Configuration, OpenAIApi} = require("openai");
 module.exports = {
   askAQuestion: async () => {
     let configuration = new Configuration({
-      apiKey: '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',
+      apiKey: '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',
     });
     let openai = new OpenAIApi(configuration);
 
@@ -20,9 +20,10 @@ module.exports = {
 
     const result = completion.data.choices[0].message.content.split('\n').map(item => item = {
       id: item.split('.')[0],
-      chapter: item.split('.')[1]
+      title: item.split('.')[1]
     })
 
+    console.log(result);
     const text  = []
     return result
     // return text

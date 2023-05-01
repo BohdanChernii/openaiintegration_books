@@ -6,8 +6,6 @@ const subtitleGenerator = require('../services/subTitleGenerator')
 
 const textGenerator = require('../services/generateText.service')
 
-const endGenerator = require('../services/endTheText')
-
 const contentListGenerator = require('../services/generateContentList')
 
 const PDFDocument = require('pdfkit');
@@ -25,18 +23,17 @@ module.exports = {
         item.subtitle = item.subtitle.filter((subItem) => parseInt(subItem.id) >= 1)
 
         for (let subtitle of item.subtitle) {
-          if (subtitle.subTitle) {
-            subtitle.description = await contentListGenerator.generateContentList(subtitle.subTitle, item.title)
-            subtitle.description = subtitle.description.filter(contentItem => parseInt(contentItem.id) >= 1)
-
-            for (let contentItem of subtitle.description) {
-              contentItem.text = await textGenerator.generateText(subtitle.subTitle, item.title, contentItem.title)
-              contentItem.text = contentItem.text.split('\n\n').join(' ')
-            }
+          if (subtitle.title) {
+            subtitle.contentList = await contentListGenerator.generateContentList(subtitle.title, item.title)
+            subtitle.contentList = subtitle.contentList.filter(contentItem => parseInt(contentItem.id) >= 1)
+            // for (let contentItem of subtitle.contentList) {
+            //   contentItem.text = await textGenerator.generateText(subtitle.title, item.title, contentItem.title)
+            //   contentItem.text = contentItem.text.split('\n\n').join(' ')
+            // }
           }
         }
       }
-      fs.writeFile("./controllers/data.json", JSON.stringify({answer}), err => {
+      fs.appendFile("./controllers/data.json", JSON.stringify({answer}), err => {
         if (err) {
           console.error(err);
         } else {
@@ -47,29 +44,24 @@ module.exports = {
       const data = answer
       const doc = new PDFDocument();
 
-      function parseText(text) {
-        let content = ''
-      }
 
-
-      function parseDescription(description) {
-        const descriptions = []
-        for (let item of description) {
-          descriptions.push(`Description ${item.id} ${item.description}\n\n\n`)
-        }
-        return descriptions.flat(3)
-      }
+// function parseText(textItem){
+//   const text = []
+//   for (let item of textItem.contentList ){
+//     text.push(textItem.text)
+//   }
+//   return text
+// }
 
 
       function parseSubs(subtitle) {
         const subtitles = []
-        let desc = []
+        let content = []
         for (let item of subtitle) {
-          desc = parseDescription(item.description)
 
-          subtitles.push(`Subtitle ${item.id} ${item.subTitle}\n\n`)
-          subtitles.push(`Lorem______________\n\n\n`)
-          subtitles.push(...desc)
+          subtitles.push(`Subtitle ${item.id} ${item.title}\n\n`)
+          subtitles.push(...content)
+
         }
         return subtitles.flat(3)
       }
@@ -79,7 +71,7 @@ module.exports = {
         let subs = []
         for (let item of data) {
           subs = parseSubs(item.subtitle)
-          chapters.push(`Chapter ${item.id} ${item.chapter}\n`)
+          chapters.push(`Chapter ${item.id} ${item.title}\n`)
           chapters.push(...subs)
           console.log(chapters);
         }
@@ -90,6 +82,7 @@ module.exports = {
       doc.text(parsed.join(' '), null, 2);
       doc.pipe(fs.createWriteStream('./controllers/output.pdf'));
       doc.end();
+      console.log(answer);
       res.json({answer}).status(200)
 
       next()
