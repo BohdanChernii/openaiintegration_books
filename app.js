@@ -2,12 +2,15 @@ const http = require('http');
 const { Configuration, OpenAIApi } = require("openai");
 const express = require('express')
 const questionRouter = require('./router/question')
+const bodyParser = require('body-parser');
 
 const app = express()
 const server = http.createServer(app)
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 app.use('/question',questionRouter)
 
