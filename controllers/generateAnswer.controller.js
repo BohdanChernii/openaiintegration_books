@@ -1,24 +1,15 @@
 const fs = require("fs");
-
 const openAIService = require('../services/openAI.service')
-
 const subtitleGenerator = require('../services/subTitleGenerator')
-
 const textGenerator = require('../services/generateText.service')
-
 const contentListGenerator = require('../services/generateContentList')
-
-const PDFDocument = require('pdfkit');
-
-const pptxgen = require('pptxgenjs')
-
-
+const PDFDocumentKit = require('pdfkit');
 module.exports = {
   generateAnswer: async (req, res, next) => {
     try {
-      const pres = new pptxgen()
       const answer = await openAIService.askAQuestion()
       for (let item of answer) {
+        item.image = 'https://phantom-marca.unidadeditorial.es/df22c5c1ace9887d9f24ade756a66daf/resize/1320/f/jpg/assets/multimedia/imagenes/2022/10/25/16667162966834.jpg'
         item.subtitle = await subtitleGenerator.subTitle(item.title)
         item.subtitle = item.subtitle.filter((subItem) => parseInt(subItem.id) >= 1)
 
@@ -42,17 +33,7 @@ module.exports = {
       });
 
       const data = answer
-      const doc = new PDFDocument();
-
-
-// function parseText(textItem){
-//   const text = []
-//   for (let item of textItem.contentList ){
-//     text.push(textItem.text)
-//   }
-//   return text
-// }
-
+      const doc = new PDFDocumentKit();
 
       function parseSubs(subtitle) {
         const subtitles = []
@@ -62,7 +43,7 @@ module.exports = {
           subtitles.push(`Subtitle ${item.id} ${item.title}\n\n`)
           subtitles.push(...content)
           for(let description of item.contentList){
-            descriptions.push(`Paragraph - ${description.title} \n\n  ${description.text}`)
+            descriptions.push(`\n${description.text}`)
             subtitles.push(...descriptions)
           }
         }
@@ -75,8 +56,12 @@ module.exports = {
         for (let item of data) {
           subs = parseSubs(item.subtitle)
           chapters.push(`Chapter ${item.id} ${item.title}\n`)
+          chapters.push(doc.addPage().image(`./temp/jack${item.id}.jpg`,{
+            fit:[500,400],
+            align:'center',
+            valign:'center'
+          }))
           chapters.push(...subs)
-          console.log(chapters);
         }
         return chapters.flat(3)
       }
@@ -84,10 +69,11 @@ module.exports = {
       const parsed = parse(data)
       doc.text(parsed.join(' '), null, 2);
       doc.pipe(fs.createWriteStream('./controllers/output.pdf'));
-      doc.end();
-      console.log(answer);
-      res.json({answer}).status(200)
 
+      doc.end();
+
+
+      res.json({answer}).status(200)
       next()
     } catch (err) {
       next(err)

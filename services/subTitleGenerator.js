@@ -2,7 +2,7 @@ const {Configuration, OpenAIApi} = require("openai");
 module.exports = {
   subTitle: async (chapter) => {
     let configuration = new Configuration({
-      apiKey: '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',
+      apiKey: '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',
     });
     let openai = new OpenAIApi(configuration);
 
@@ -11,7 +11,7 @@ module.exports = {
         {
           "role": "user",
           "content":
-            `Answer like author of books, Write me now with 3 subsections for this section ${chapter} of this book "The Adventures of Captain Jack Sparrow"`
+            `Answer like author of books, Write me now with 5 subsections for this section ${chapter} of this book "The Adventures of Captain Jack Sparrow"`
         }
       ],
       model: "gpt-3.5-turbo",
