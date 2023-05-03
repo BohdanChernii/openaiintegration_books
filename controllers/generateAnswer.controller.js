@@ -11,11 +11,45 @@ const contentListGenerator = require('../services/generateContentList')
 const PDFDocument = require('pdfkit');
 
 const pptxgen = require('pptxgenjs')
-
+const request = require('request')
+const doc = new PDFDocument();
 
 module.exports = {
-  generateAnswer: async (req, res, next) => {
-    try {
+    generateAnswer: async (req, res, next) => {
+        try {
+
+// const url = 'https://static.wikia.nocookie.net/pirates/images/e/ea/DMTNT_Jack_Sparrow_cropped.png/revision/latest?cb=20170507052033'
+//             function generateWriteImageToPDF() {
+//                 const tempFilePath = `./temp/image.jpg`;
+//                 const fileStream = fs.createWriteStream(tempFilePath);
+//                 request.get( 'https://static.wikia.nocookie.net/pirates/images/e/ea/DMTNT_Jack_Sparrow_cropped.png/revision/latest?cb=20170507052033')
+//                     // request.get('https://phantom-marca.unidadeditorial.es/df22c5c1ace9887d9f24ade756a66daf/resize/1320/f/jpg/assets/multimedia/imagenes/2022/10/25/16667162966834.jpg')
+//                     .on('error', function (err) {
+//                         console.log(err);
+//                     })
+//                     .on('response', function (response) {
+//                         // check if the response is an image
+//                         if (response.headers['content-type'].startsWith('image/')) {
+//                             response.pipe(fileStream)
+//                                 .on('finish', function () {
+//                                     // set the image width and height to fit within the document
+//                                     const width = doc.page.width - doc.page.margins.left - doc.page.margins.right;
+//                                     const height = width * response.headers['content-length'] / response.headers['content-type'].match(/^image\/.*$/)[0];
+//                                     // add the image to the document
+//                                     doc.image(tempFilePath, {width: width, height: height});
+//                                     // render the document and save it to a file
+//                                     doc.pipe(fs.createWriteStream('./controllers/output.pdf'))
+//                                         .on('error', function (err) {
+//                                             console.log('Error writing PDF file: ', err);
+//                                         });
+//                                     doc.end();
+//                                 });
+//                         } else {
+//                             console.log('URL does not point to an image');
+//                         }
+//                     });
+//             }
+
       const pres = new pptxgen()
       const answer = await openAIService.askAQuestion()
       for (let item of answer) {
@@ -83,14 +117,42 @@ module.exports = {
 
       const parsed = parse(data)
       doc.text(parsed.join(' '), null, 2);
+            const tempFilePath = `./temp/image.jpg`;
+            const fileStream = fs.createWriteStream(tempFilePath);
+            request.get( 'https://static.wikia.nocookie.net/pirates/images/e/ea/DMTNT_Jack_Sparrow_cropped.png/revision/latest?cb=20170507052033')
+                // request.get('https://phantom-marca.unidadeditorial.es/df22c5c1ace9887d9f24ade756a66daf/resize/1320/f/jpg/assets/multimedia/imagenes/2022/10/25/16667162966834.jpg')
+                .on('error', function (err) {
+                    console.log(err);
+                })
+                .on('response', function (response) {
+                    // check if the response is an image
+                    if (response.headers['content-type'].startsWith('image/')) {
+                        response.pipe(fileStream)
+                            .on('finish', function () {
+                                // set the image width and height to fit within the document
+                                const width = doc.page.width - doc.page.margins.left - doc.page.margins.right;
+                                const height = width * response.headers['content-length'] / response.headers['content-type'].match(/^image\/.*$/)[0];
+                                // add the image to the document
+                                doc.image(tempFilePath, {width: width, height: height});
+                                // render the document and save it to a file
+                                // doc.pipe(fs.createWriteStream('./controllers/output.pdf'))
+                                //     .on('error', function (err) {
+                                //         console.log('Error writing PDF file: ', err);
+                                //     });
+                                // doc.end();
+                            });
+                    } else {
+                        console.log('URL does not point to an image');
+                    }
+                });
       doc.pipe(fs.createWriteStream('./controllers/output.pdf'));
       doc.end();
       console.log(answer);
       res.json({answer}).status(200)
 
       next()
-    } catch (err) {
-      next(err)
+        } catch (err) {
+            next(err)
+        }
     }
-  }
 }
