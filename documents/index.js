@@ -7,10 +7,6 @@ module.exports = (data) => {
         <meta charset="utf-8">
         <title>PDF Result Template</title>
         <style>
-        @page  {
-  margin: 0;
-  size: letter; /*or width then height 150mm 50mm*/
-}
           body{
             box-sizing: border-box;
             margin: 0;
@@ -79,7 +75,6 @@ module.exports = (data) => {
           .mainLeft {
             width: 35%;
             padding: 50px 30px 30px 0;
-            /*border-right: 2px solid lightgray;*/
           }
           
           .mainContact {
@@ -110,8 +105,7 @@ module.exports = (data) => {
           }
           
           .contactText {
-            font-size: 14px;
-            font-weight: 600;
+            font-size: 16px;
           }
           
           .mainSkills {
@@ -140,8 +134,8 @@ module.exports = (data) => {
             background: #918d8d;
           }
           .skills {
-            font-size: 16px;
-            font-weight: 600;
+            font-size: 18px;
+            /*font-weight: 600;*/
             color: black;
             margin-bottom: 10px;
           }
@@ -173,9 +167,8 @@ module.exports = (data) => {
           
           .profilText1 {
             padding-bottom: 10px;
-            font-size: 18px;
-            font-weight: 400;
-            color: black;
+            font-size: 20px;
+            color: #414040;
           } 
           
           .profilText2 {
@@ -208,6 +201,7 @@ module.exports = (data) => {
           .typeWork {
             padding: 0 6px;
             border-right: 1px solid black;
+            color: #414040;
           }
           
           .years {
@@ -221,6 +215,7 @@ module.exports = (data) => {
             align-items: center;
             justify-content: center;
             padding-bottom: 5px;
+            color: grey;
           }
           
           .study {
@@ -254,6 +249,7 @@ module.exports = (data) => {
                <div class="name">${data.lastName}</div>
             </div>
             <div class="headerRight">
+<!--               <img class="image" src="file:///C:/Users/admin/WebstormProjects/Project/CV/img/photo_2023-06-04_23-06-39.jpg" alt="" /> -->
                <img class="image" src="${data.myImage}" alt="" /> 
             </div>
           `).join('')}
@@ -289,7 +285,7 @@ module.exports = (data) => {
             
             <div class="mainSkills">
                <div class="title">KOMPETENZEN</div>
-<!--               <div class="title">SKILLS</div>-->
+               <!--               <div class="title">SKILLS</div>-->
                 ${data.myData.map((data) => ` <ul>
                   ${data.skills.map((skill) => `
                     <div class="containerLi">
@@ -347,15 +343,15 @@ module.exports = (data) => {
                   </div>
                   <ul>
                      ${experience.description.map((whatDo) => {
-                         if (whatDo.whatDo.trim() !== '') {
-                         return `
+                       if (whatDo.whatDo.trim() !== '') {
+                        return `
                          <div class="toDo">
                            <div class="checkList"></div>
                            <li>${whatDo.whatDo}</li>
                          </div>
                        `;
-                         }
-                         return '';
+                        }
+                       return '';
                      }).join('')}
                   </ul>
                 `).join('')}

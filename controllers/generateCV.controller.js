@@ -6,7 +6,7 @@ const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
 
 
 module.exports = {
-    generateAnswer: async (req, res, next) => {
+    generateCV: async (req, res, next) => {
         // const myPath = path.join(process.cwd(), 'img', 'photo_2023-06-04_23-06-39.jpg');
         // // const newFile = await fs.readFile(myPath);
         // // const newFile = await fs.readFile(myPath);
@@ -27,7 +27,8 @@ module.exports = {
                     position: 'FULL STACK ENTWICKLER',
                     firstName: 'NATALIIA',
                     lastName: 'MALITSKA',
-                    myImage: 'https://intergram-test.s3.eu-west-3.amazonaws.com/user-avatar/photo_2023-06-04_23-06-39.jpg',
+                    myImage: 'https://i.ibb.co/Vgnbj12/photo-2023-06-04-23-06-39.jpg',
+                    // myImage: 'https://intergram-test.s3.eu-west-3.amazonaws.com/user-avatar/photo_2023-06-04_23-06-39.jpg',
                     contacts:
                         {
                             emailImg: 'https://previews.123rf.com/images/jenjawin/jenjawin1904/jenjawin190400761/121278474-envelope-icon-vector-grey-envelope-email-icon.jpg',
@@ -36,7 +37,7 @@ module.exports = {
                             address: 'Neukirchener Str.,44 Krefeld 47829',
                             telephoneImg: 'https://png.pngtree.com/element_our/png_detail/20190103/smartphone-line-black-icon-png_309255.jpg',
                             telephone: '+4917687030532',
-                            telegram: '+380677709362 (Telegram, WhatsApp, Viber'
+                            telegram: '+380677709362 (Telegram, WhatsApp, Viber)'
                         },
                     skills: [
                         'JavaScript', 'TypeScript', 'React', 'Redux', 'Style Components', 'React Testing Library',
@@ -165,12 +166,14 @@ module.exports = {
                 height: '18in' // Висота сторінки (більша висота для збільшення довжини)
             };
             pdf.create(pdfTemplate({myData}), options).toFile('CV.pdf', (err) => {
+            // pdf.create(pdfTemplate({myData}), options).toFile('resume.pdf', (err) => {
                 if (err) {
                     return res.status(500).send('Error generating PDF');
                 }
 
                 // Send the generated PDF as a response
                 return res.sendFile('CV.pdf', {root: '.'});
+                // return res.sendFile('resume.pdf', {root: '.'});
             });
         } catch (err) {
             // Handle the error
