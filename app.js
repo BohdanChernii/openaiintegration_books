@@ -18,8 +18,7 @@ app.get('/',(req,res)=>{
   res.json('Welcome')
 })
 
-app.use((err, req, res, next) => {
-  console.log(err);
+app.use((err, req, res) => {
   res.status(err.status || 500).json({
     message: err.message || 'Unknown error', status: err.status || 500
   })
