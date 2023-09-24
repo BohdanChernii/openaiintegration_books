@@ -52,17 +52,21 @@ module.exports = (data) => {
           }
           
           .headerRight {
-            width: 180px;
+            width: 200px;
+            /*width: 180px;*/
             height: 230px;
             overflow: hidden;
             position: relative;
           }
           
           .image {
-            width: 290px;
-            height: 330px;
+            /*width: 290px;*/
+            /*height: 330px;*/
+            width: 260px;
+            height: 280px;
             left: 50%;
-            margin-left: -150px;
+            margin-left: -135px;
+            /*margin-left: -150px;*/
             position: absolute;
           }
           
@@ -276,10 +280,12 @@ module.exports = (data) => {
                   <img class="imageContact" src="${data.contacts.telephoneImg}" alt="" />
                   <div class="contactText">${data.contacts.telephone}</div>
                 </div>
+                ${data.contacts.telegram ? `
                 <div class="boxContact">
                   <img class="imageContact" src="${data.contacts.telephoneImg}" alt="" />
                   <div class="contactText">${data.contacts.telegram}</div>
                 </div>
+              ` : ''}
               `).join('')}
             </div>
             

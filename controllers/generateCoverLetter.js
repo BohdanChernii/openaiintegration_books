@@ -1,38 +1,47 @@
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
 const pdf = require('html-pdf');
 const pdfTemplate = require('../coverLetter');
-const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
+// const { PDFDocument, StandardFonts, rgb } = require('pdf-lib');
 
 
 module.exports = {
     generateCoverLetter: async (req, res, next) => {
         const myCover = [
             {
-                name: 'NATALIA MALITSKA',
+                name: 'NATALIIA MALITSKA',
                 street: 'Neukirchener Str., 44',
                 city: '47829 Krefeld',
                 phone: '+4917687030532',
-                email: 'vns122716@gmail.com',
+                email: 'nataliiamalitska.dev@gmail.com',
+                // email: 'vns122716@gmail.com',
                 company: [
                     {
-                        name: 'FIRMA',
-                        contactPerson : 'Ansprechpartner',
-                        address: 'Straße oder Postfach',
-                        city: 'PLZ und Ort'
+                        name: 'Casculate GmbH',
+                        contactPerson : 'Emine Topcu',
+                        // address: 'ThyssenKrupp Allee, 1',
+                        city: 'Remote (Germany)'
+                        // city: 'Düsseldorf'
                     }
                 ],
-                data: 'Krefeld, 0/0/2023',
-                header: 'Bewerbung als „Berufsbezeichnung“ (diese ist der Stellenanzeige zu entnehmen)',
-                start: 'Sehr geehrte Damen und Herren,',
-                first: 'Ich bin ein qualifizierter Full Stack Developer mit anderthalb Jahren Erfahrung. Ich bringe Ihrem ' +
+                data: 'Krefeld, 23/09/2023',
+                // header: 'Frontend React Engineer',
+                header: 'Working Student Front-End Development with React(M/F/D)',
+                // header: 'Bewerbung als „Berufsbezeichnung“ (diese ist der Stellenanzeige zu entnehmen)',
+                start: 'Sehr geehrte Emine Topcu,',
+                // start: 'Sehr geehrte Damen und Herren,',
+                first: 'ich bin ein qualifizierter Full Stack Developer mit anderthalb Jahren Erfahrung.Aktuell bin ich' +
+                    ' auf der Suche nach einer Teilzeitstelle (da ich vormittags Deutschkurse besuche) oder Vollzeit' +
+                    ' (Tailzeit im Büro, Tailzeit von zu Hause). Ich bringe Ihrem ' +
+                    // ' (Tailzeit im Büro, Tailzeit von zu Hause) mit der' +
+                    // ' Perspektive einer Ausbildung. Ich bringe Ihrem ' +
                     'Unternehmen einen großen Mehrwert durch mein fundiertes Verständnis von Programmierung und meine ' +
-                    'Motivation, innovative Webanwendungen zu entwickeln. Als teamorientierter Spieler arbeite ich' +
+                    'Motivation, innovative Webanwendungen zu entwickeln. Als teamorientierter arbeite ich' +
                     ' effektiv in einem Team und trage zum gemeinsamen Erfolg bei. Ich bin belastbar und bereit, ' +
                     'Herausforderungen anzunehmen. Zudem beherrsche ich effektives Zeitmanagement. Dadurch bin ich in ' +
                     'der Lage, Aufgaben termingerecht zu erledigen und gesetzte Ziele zu erreichen. Mit diesen' +
                     ' Fähigkeiten bin ich ein zuverlässiges und produktives Mitglied Ihres Teams.',
-                second: 'Als erfahrener Entwickler habe ich Erfahrung in der Arbeit mit einer\n' +
+                second: 'Als Entwickler habe ich Erfahrung in der Arbeit mit einer\n' +
                     'Vielzahl von modernen Technologien, darunter React, Node, Figma,\n' +
                     'Strapi, Firebase, Jira und Codecept.\n' +
                     'Ich habe erfolgreich mehrere Webanwendungen entwickelt und\n' +
@@ -40,7 +49,7 @@ module.exports = {
                     'verwendet wurde. Zur Unterstützung dieser Anwendungen habe ich\n' +
                     'Node.js genutzt, um skalierbare und effi ziente Backend-Systeme zu\n' +
                     'entwickeln. Meine Fähigkeiten in Figma haben es mir ermöglicht,\n' +
-                    'intuitive und benutzerfreundliche Oberfl ächen für diese\n' +
+                    'intuitive und benutzerfreundliche Oberflächen für diese\n' +
                     'Anwendungen zu gestalten, während meine Expertise in Strapi zur\n' +
                     'Erstellung robuster Content-Management-Systeme beigetragen\n' +
                     'hat.\n' +
@@ -58,14 +67,63 @@ module.exports = {
                     ' ich erfolgreich einen intensiven Programmierkurs absolviert, in dem ich Kenntnisse in Technologien' +
                     ' wie HTML, CSS, JavaScript, MySQL, MongoDB, Node.js, Express.js, React, Angular, Nest.js, Docker' +
                     ' und AWS erworben habe. Derzeit erweitere ich mein Wissen durch Kurse in Deutsch und Englisch.',
-                fourth: 'Vielen Dank für Ihre Aufmerksamkeit. Ich freue mich darauf, meine Erfahrungen und Qualifikationen' +
+                fourth: 'Ich freue mich darauf, meine Erfahrungen und Qualifikationen' +
                     ' in einem persönlichen Gespräch näher zu erläutern. Ich bin überzeugt davon, dass ich als Full' +
                     ' Stack Developer einen wesentlichen Mehrwert für Ihr Unternehmen bieten kann.',
                 finish: 'Mit freundlichen Grüßen',
                 sign: 'https://i.ibb.co/1JN1GHv/sign.png',
-                signature: 'Natalia Malitska'
+                signature: 'Nataliia Malitska'
             }
         ]
+
+        // const myCover = [
+        //     {
+        //         name: 'VOLODYMYR MALITSKYY',
+        //         street: 'Neukirchener Str., 44',
+        //         city: '47829 Krefeld',
+        //         phone: '+487959902789',
+        //         email: 'malitskiy1204@gmail.com',
+        //         company: [
+        //             {
+        //                 name: 'Brockmann-Holz GmbH',
+        //                 // contactPerson : 'Contact persone',
+        //                 // address: 'Uerdingen',
+        //                 city: 'Krefeld'
+        //                 // city: 'Düsseldorf'
+        //             }
+        //         ],
+        //         data: 'Krefeld, 20/09/2023',
+        //         header: 'Berufskraftfahrer/in',
+        //         start: 'Sehr geehrte Damen und Herren,',
+        //         first: 'ich besitze Führerscheine der Kategorien B, D, C und E sowie 21 Jahre Berufserfahrung im Bereich' +
+        //             ' Transport und Logistik. Als leidenschaftlicher Berufsfahrer verfüge ich über umfangreiche Kenntnisse' +
+        //             ' im Umgang mit verschiedenen Fahrzeugtypen, einschließlich Lastwagen und Bussen. Ich habe' +
+        //             ' erfolgreich zahlreiche Langstrecken- und Nahverkehrsrouten bewältigt und verfüge über ein tiefes ' +
+        //             ' Verständnis für die Einhaltung der Verkehrsregeln und Sicherheitsvorschriften.',
+        //         second: 'Seit Beginn meiner Berufslaufbahn fahre ich unfallfrei, ich habe ein fundiertes Wissen über die' +
+        //             ' Straßenverkehrsregeln und Sicherheitsvorschriften. Während meiner langjährigen Karriere habe ich' +
+        //             ' stets pünktliche und zuverlässige Transportdienstleistungen erbracht. Ich bin in der Lage, sowohl' +
+        //             ' eigenständig als auch im Team zuarbeiten und bin stets bereit, neue Herausforderungen anzunehmen.' +
+        //             ' Mein Engagement für effizientes Zeitmanagement ermöglicht es mir, Frachten termingerecht' +
+        //             ' zuzustellen und die gesetzten Ziele zu erreichen.',
+        //         third: 'Ich lege ich großen Wert auf die Pflege und Wartung meiner Fahrzeuge, um sicherzustellen, dass' +
+        //             ' sie stets in einwandfreiem Zustand sind. Mein Fokus liegt auf der Sicherheit von Passagieren und ' +
+        //             ' Fracht. Ich bin geschult im sicheren Verladen und Entladen von Gütern.',
+        //         fourth: 'Mit meinem umfassenden Erfahrungsschatz als Fahrer bin ich überzeugt, dass ich einen wertvollen' +
+        //             ' Beitrag zu Ihrem Unternehmen leisten kann. Derzeit suche ich aktiv nach Arbeit und bin bereit, sofort' +
+        //             ' anzufangen. Ich bin auch bereit, dazuzulernen und meine Fähigkeiten weiter zu verbessern, um ein noch' +
+        //             ' besserer Berufsfahrer zu sein. Ich freue mich darauf, meine Fähigkeiten und Qualifikationen in einem' +
+        //             ' persönlichen Gespräch näher zu erläutern.',
+        //         // fourth: 'Mit meinem umfassenden Erfahrungsschatz als Fahrer bin ich überzeugt, dass ich einen wertvollen' +
+        //         //     ' Beitrag zu Ihrem Unternehmen leisten kann. Derzeit suche ich aktiv nach Arbeit und bin bereit,' +
+        //         //     ' sofort anzufangen. Ich bin auch bereit, dazuzulernen und meine Fähigkeiten weiter zu verbessern, ' +
+        //         //     ' um ein noch besserer Berufsfahrer zu sein. Ich freue mich darauf, meine Fähigkeiten und ' +
+        //         //     ' Qualifikationen in einem persönlichen Gespräch näher zu erläutern.',
+        //         finish: 'Mit freundlichen Grüßen',
+        //         sign: 'https://i.ibb.co/wgGvpk7/photo-2023-09-10-18-54-28-removebg-preview-2.png',
+        //         signature: 'Volodymyr Malitskyy'
+        //     }
+        // ]
 
         try {
             const options = {

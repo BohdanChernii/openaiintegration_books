@@ -1,5 +1,4 @@
 module.exports = (data) => {
-    console.log(data, '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
     return `
     <!doctype html>
     <html>
@@ -86,15 +85,15 @@ module.exports = (data) => {
                   <div>${data.email}</div>
                </div>
                
-               
-                   ${data.company.map((companyDet) => `
-                    <div class="companyBox">
-                      <div class="company">${companyDet.name}</div>
-                      <div class="company">${companyDet.contactPerson}</div>
-                      <div class="company">${companyDet.address}</div>
-                      <div class="company">${companyDet.city}</div>
-                    </div>
-                    `).join('')} 
+               ${data.company.map((companyDet) => `
+                 <div class="companyBox">
+                   <div class="company">${companyDet.name}</div>
+                    ${companyDet.contactPerson ? `<div class="company">${companyDet.contactPerson}</div>` : ''}
+                    ${companyDet.address ? `<div class="company">${companyDet.address}</div>` : ''}
+                    <div class="company">${companyDet.city}</div>
+                 </div>
+               `).join('')}
+        
                         
                <div class="data">${data.data}</div>
                

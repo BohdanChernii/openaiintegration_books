@@ -28,8 +28,10 @@ module.exports = (data) => {
             justify-content: center;
           }
           .image {
-            width: 300px;
-            height: 350px;
+            width: 280px;
+            /*width: 300px;*/
+            height: 310px;
+            /*height: 350px;*/
             border: 2px solid lightgray;
             margin-bottom: 50px;
             box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0, rgba(255, 255, 255, 0.8) -6px -2px 16px 0;
@@ -84,7 +86,7 @@ module.exports = (data) => {
                  <div class="text">${data.city}</div>
                </div>
                
-               <div class="titleTwo">Andaben des Bewerbers:</div>
+               <div class="titleTwo">Angaben des Bewerbers:</div>
                <div class="textBox">
                  <div class="text">${data.name}</div>
                </div>
